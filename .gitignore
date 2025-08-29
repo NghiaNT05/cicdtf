@@ -21,3 +21,5 @@ crash.log
 # Optional: SSH keys (nếu có generate local)
 *.pem
 *.key
+#tfvars
+*.tfvars
