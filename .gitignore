@@ -1,0 +1,23 @@
+# Terraform state
+*.tfstate
+*.tfstate.backup
+
+# Terraform crash logs
+crash.log
+
+# Terraform provider plugins
+.terraform/
+
+# Terraform lock file (tuỳ, nếu bạn không muốn kiểm soát version provider theo team)
+.terraform.lock.hcl
+
+# Optional: VS Code settings (nếu bạn dùng VS Code)
+.vscode/
+
+# Optional: log files / output files
+*.log
+*.out
+
+# Optional: SSH keys (nếu có generate local)
+*.pem
+*.key
