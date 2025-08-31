@@ -5,22 +5,15 @@ pipeline {
         terraform 'terraform'
     }
 
-    environment {
-        AWS_REGION = 'ap-southeast-1'
-    }
+  environment {
+    AWS_REGION = 'ap-southeast-1'
+}
 
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Terraform Init') {
+stage('Terraform Init') {
     steps {
         withCredentials([[
             $class: 'AmazonWebServicesCredentialsBinding',
-            credentialsId: 'access'  // AWS credential trong Jenkins
+            credentialsId: 'access'
         ]]) {
             withEnv([
                 "AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}",
@@ -28,32 +21,40 @@ pipeline {
                 "AWS_DEFAULT_REGION=${env.AWS_REGION}"
             ]) {
                 sh 'terraform init'
-                        }
-                    }
-                }
-            }
-
-        stage('Terraform Plan') {
-            steps {
-                withCredentials([file(credentialsId: 'tfvarsfile', variable: 'TFVARS_FILE')]) {
-                    sh '''
-                    terraform plan -var-file="$TFVARS_FILE"
-                    '''
-                }
             }
         }
+    }
+}
 
-        stage('Terraform Apply') {
-            steps {
-                withCredentials([
-                    [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'access'],
-                    file(credentialsId: 'tfvarsfile', variable: 'TFVARS_FILE')
-                ]) {
-                    withEnv(["AWS_DEFAULT_REGION=${env.AWS_REGION}"]) {
-                        sh '''
-                            terraform apply -auto-approve -var-file="$TFVARS_FILE"
-                        '''
-                    }
+stage('Terraform Plan') {
+    steps {
+        withCredentials([
+            [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'access'],
+            file(credentialsId: 'tfvarsfile', variable: 'TFVARS_FILE')
+        ]) {
+            withEnv([
+                "AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}",
+                "AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}",
+                "AWS_DEFAULT_REGION=${env.AWS_REGION}"
+            ]) {
+                sh 'terraform plan -var-file="$TFVARS_FILE"'
+            }
+        }
+    }
+}
+
+stage('Terraform Apply') {
+    steps {
+        withCredentials([
+            [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'access'],
+            file(credentialsId: 'tfvarsfile', variable: 'TFVARS_FILE')
+        ]) {
+            withEnv([
+                "AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}",
+                "AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}",
+                "AWS_DEFAULT_REGION=${env.AWS_REGION}"
+            ]) {
+                sh 'terraform apply -auto-approve -var-file="$TFVARS_FILE"'
                 }
             }
         }
