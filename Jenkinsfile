@@ -1,35 +1,12 @@
 pipeline{
     agent any
-     tools {
-    terraform 'terraform'
-  }
     stages{
-        stage("A"){
+        stage("Checkout"){
             steps{
-                echo "========executing A========"
-            }
-            post{
-                always{
-                    echo "========always========"
-                }
-                success{
-                    echo "========A executed successfully========"
-                }
-                failure{
-                    echo "========A execution failed========"
-                }
+                checkout scm
             }
         }
+        
     }
-    post{
-        always{
-            echo "========always========"
-        }
-        success{
-            echo "========pipeline executed successfully ========"
-        }
-        failure{
-            echo "========pipeline execution failed========"
-        }
-    }
+    
 }
