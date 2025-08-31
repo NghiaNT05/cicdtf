@@ -33,6 +33,9 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'tfvarsfile', variable: 'TFVARS_FILE')]) {
                     sh '''
+                    echo "TFVARS file path: $TFVARS_FILE"
+                    ls -l $TFVARS_FILE
+                    cat $TFVARS_FILE
                     terraform plan -var-file=$TFVARS_FILE
                     '''
                 }
