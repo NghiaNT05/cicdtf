@@ -28,7 +28,7 @@ data "aws_ami" "amazon_linux_2023" {
 
 resource "aws_key_pair" "name" {
   key_name   = "my-key01"
-  public_key = file("~/.ssh/id_ed25519.pub")  # lưu ý là file public key
+  public_key = var.public_key  # lưu ý là file public key
 }
 
 
