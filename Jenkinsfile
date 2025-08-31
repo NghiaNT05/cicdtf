@@ -32,9 +32,9 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 withCredentials([file(credentialsId: 'tfvarsfile', variable: 'TFVARS_FILE')]) {
-                    sh """
-                        terraform plan -var-file=$TFVARS_FILE
-                    """
+                    sh '''
+                    terraform plan -var-file=$TFVARS_FILE
+                    '''
                 }
             }
         }
@@ -46,9 +46,9 @@ pipeline {
                     file(credentialsId: 'tfvarsfile', variable: 'TFVARS_FILE')
                 ]) {
                     withEnv(["AWS_DEFAULT_REGION=${env.AWS_REGION}"]) {
-                        sh """
+                        sh '''
                             terraform apply -auto-approve -var-file=$TFVARS_FILE
-                        """
+                        '''
                     }
                 }
             }
