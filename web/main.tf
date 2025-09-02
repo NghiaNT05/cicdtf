@@ -28,10 +28,8 @@ data "aws_ami" "amazon_linux_2023" {
 
 resource "aws_key_pair" "name" {
   key_name   = "my-key01"
-  public_key = var.public_key  # lưu ý là file public key
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6xQfbgVJZIwFIpH7kI7Ek+nYAkIW2KzcL0WkYJqY9S 23521015@gm.uit.edu.vn"
 }
-
-
 resource "aws_instance" "bastion_host" {
   ami = data.aws_ami.amazon_linux_2023.id
   instance_type = "t3.micro"

@@ -13,5 +13,4 @@ module "ec2" {
   db_subnet_group_name = module.vpc.db_subnet_group_name
   db_password = var.db_password
   db_username = var.db_username
-  public_key = var.public_key
 }
