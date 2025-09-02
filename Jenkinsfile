@@ -49,7 +49,6 @@ pipeline {
                 withCredentials([
                     [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'access'],
                     file(credentialsId: 'tfvarsfile', variable: 'TFVARS_FILE'),
-                    credentialsId: 'sshfile', variable: 'PUB_KEY'
                 ]) {
                     withEnv([
                         "AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}",
