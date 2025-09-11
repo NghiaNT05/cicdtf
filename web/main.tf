@@ -47,7 +47,7 @@ resource "aws_instance" "frontend" {
   vpc_security_group_ids = [var.sg_web]
   key_name = aws_key_pair.name.key_name
   tags = {
-    Name = "frontend"
+    Name = "nghiafe"
   }
 }
 resource "aws_instance" "backend" {
